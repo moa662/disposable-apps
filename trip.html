@@ -131,6 +131,12 @@ body{
 .event{
   display:flex;gap:14px;padding:14px 0;
   border-bottom:1px solid rgba(255,255,255,.04);
+  position:relative;
+}
+.event-weather{
+  display:inline-block;font-size:13px;color:var(--accent);font-weight:600;
+  background:var(--accent-dim);padding:4px 10px;border-radius:10px;
+  margin-top:8px;
 }
 .event:last-child{border-bottom:none}
 .event-time{
@@ -441,6 +447,7 @@ a.map-link{
             <div class="event-content">
               <h4>9:00 – 19:00 会议议程</h4>
               <p>海外海大酒店会议厅</p>
+              <span class="event-weather">&#9728; 晴 21° 舒适</span>
               <span class="event-tag tag-event">&#127881; 大会</span>
             </div>
           </div>
@@ -507,7 +514,7 @@ a.map-link{
       </div>
     </div>
 
-    <!-- Day 4: 3.30 自由活动 -->
+    <!-- Day 4: 3.30 转酒店 -->
     <div class="day-card" id="day-3">
       <div class="day-header" onclick="toggleDay(3)">
         <div class="day-date">
@@ -516,8 +523,8 @@ a.map-link{
             <span class="d-month">3月</span>
           </div>
           <div class="date-info">
-            <h3>自由活动</h3>
-            <p>周一 &middot; 自由安排</p>
+            <h3>转住全季</h3>
+            <p>周一 &middot; 换酒店</p>
           </div>
         </div>
         <div class="day-arrow">&#9660;</div>
@@ -525,12 +532,24 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">全天<br><span class="time-suggest">灵活安排</span></div>
+            <div class="event-time">上午<br><span class="time-suggest">自由活动</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>自由活动</h4>
               <p>可在杭州逛逛，为31号实战课做准备<br>确认拍摄设备和道具是否齐全</p>
+              <span class="event-weather">&#9728; 晴 22° 适合户外</span>
               <span class="event-tag tag-free">&#9749; 自由</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">下午<br><span class="time-suggest">前往新酒店</span></div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>退房 &amp; 转住全季酒店</h4>
+              <p>全季杭州文三路地铁站酒店（西湖区文三路553号）<br>
+              <em style="color:var(--text-dim)">距润宇实战课（西湖国际科技大厦C座）：步行约18分钟，约1公里</em></p>
+              <span class="event-tag tag-hotel">&#127968; 住宿</span>
+              <a class="map-link" href="https://uri.amap.com/search?keyword=全季杭州文三路地铁站酒店&city=杭州" target="_blank">&#128205; 酒店导航</a>
             </div>
           </div>
         </div>
@@ -569,6 +588,7 @@ a.map-link{
             <div class="event-content">
               <h4>现场创作 &amp; 拍摄 &amp; 粗剪</h4>
               <p>现场创作、拍摄、粗剪一条短视频</p>
+              <span class="event-weather">&#9728; 晴 22° 光线好适合拍摄</span>
               <span class="event-tag tag-event">&#127909; 课程</span>
             </div>
           </div>
@@ -608,7 +628,8 @@ a.map-link{
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>高铁返回邯郸</h4>
-              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家<br><em style="color:var(--accent);font-size:13px">天气：晴，温度22°，出行顺利</em></p>
+              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家</p>
+              <span class="event-weather">&#9728; 晴 22° 出行顺利</span>
               <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
@@ -673,7 +694,7 @@ a.map-link{
       </div>
       <div class="info-row">
         <div class="label">入住</div>
-        <div class="value">3月29日晚起（约2晚）</div>
+        <div class="value">3月30日下午起（约2晚）</div>
       </div>
       <div class="info-row">
         <div class="label">到润宇</div>
