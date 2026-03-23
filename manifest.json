@@ -1,0 +1,24 @@
+{
+  "name": "杭州出差行程",
+  "short_name": "杭州行",
+  "description": "3.27-4.1 杭州出差行程，航海家AI大会 & 润宇实战课",
+  "start_url": "./trip.html",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#0f1117",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%230f1117'/><circle cx='96' cy='80' r='30' fill='none' stroke='%23c9a96e' stroke-width='5'/><line x1='96' y1='50' x2='96' y2='35' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='96' y1='110' x2='96' y2='160' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='72' y1='130' x2='120' y2='130' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='80' y1='105' x2='72' y2='115' stroke='%23c9a96e' stroke-width='4' stroke-linecap='round'/><line x1='112' y1='105' x2='120' y2='115' stroke='%23c9a96e' stroke-width='4' stroke-linecap='round'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230f1117'/><circle cx='256' cy='215' r='80' fill='none' stroke='%23c9a96e' stroke-width='12'/><line x1='256' y1='135' x2='256' y2='95' stroke='%23c9a96e' stroke-width='12' stroke-linecap='round'/><line x1='256' y1='295' x2='256' y2='420' stroke='%23c9a96e' stroke-width='12' stroke-linecap='round'/><line x1='195' y1='345' x2='317' y2='345' stroke='%23c9a96e' stroke-width='12' stroke-linecap='round'/><line x1='215' y1='280' x2='195' y2='305' stroke='%23c9a96e' stroke-width='10' stroke-linecap='round'/><line x1='297' y1='280' x2='317' y2='305' stroke='%23c9a96e' stroke-width='10' stroke-linecap='round'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

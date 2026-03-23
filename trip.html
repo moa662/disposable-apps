@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1117">
+<meta name="apple-mobile-web-app-title" content="杭州行">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230f1117'/><circle cx='90' cy='75' r='28' fill='none' stroke='%23c9a96e' stroke-width='5'/><line x1='90' y1='47' x2='90' y2='32' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='90' y1='103' x2='90' y2='150' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='68' y1='122' x2='112' y2='122' stroke='%23c9a96e' stroke-width='5' stroke-linecap='round'/><line x1='75' y1='99' x2='68' y2='108' stroke='%23c9a96e' stroke-width='4' stroke-linecap='round'/><line x1='105' y1='99' x2='112' y2='108' stroke='%23c9a96e' stroke-width='4' stroke-linecap='round'/></svg>">
+<title>杭州出差行程</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0f1117;--card:#1a1d27;--card-hover:#22263a;
+  --border:#2a2e3f;--text:#e8e8ec;--text-dim:#8b8fa3;
+  --accent:#c9a96e;--accent-dim:rgba(201,169,110,.15);
+  --accent2:#5b8def;--danger:#e85d5d;--success:#5bc4a0;
+  --radius:14px;--radius-sm:10px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  min-height:100vh;padding-bottom:80px;
+  -webkit-font-smoothing:antialiased;
+}
+/* === 顶部 Hero === */
+.hero{
+  background:linear-gradient(160deg,#1a1d2e 0%,#0f1117 40%,#151a2e 100%);
+  padding:56px 20px 36px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-60px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,.12),transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-40px;left:-30px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(91,141,239,.08),transparent 70%);
+}
+.hero-tag{
+  display:inline-block;font-size:12px;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;
+  background:var(--accent-dim);padding:4px 12px;border-radius:20px;
+  margin-bottom:16px;font-weight:600;
+}
+.hero h1{font-size:28px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+.hero .subtitle{font-size:15px;color:var(--text-dim);margin-bottom:20px}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap}
+.hero-meta-item{
+  display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);
+}
+.hero-meta-item .icon{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--card);display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+/* === 总览时间线 === */
+.overview{
+  padding:24px 16px;display:flex;gap:8px;overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.overview::-webkit-scrollbar{display:none}
+.overview-card{
+  flex-shrink:0;width:72px;text-align:center;
+  padding:12px 8px;border-radius:var(--radius-sm);
+  background:var(--card);border:1px solid var(--border);
+  cursor:pointer;transition:all .2s;
+}
+.overview-card.active,.overview-card:active{
+  border-color:var(--accent);background:var(--accent-dim);
+}
+.overview-card .day-num{font-size:20px;font-weight:700;color:var(--text)}
+.overview-card .day-label{font-size:11px;color:var(--text-dim);margin-top:2px}
+.overview-card .day-week{font-size:11px;color:var(--accent);margin-top:4px;font-weight:600}
+/* === 内容区 === */
+.content{padding:0 16px}
+.section-title{
+  font-size:13px;color:var(--text-dim);letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;
+  padding:20px 0 12px;display:flex;align-items:center;gap:8px;
+}
+.section-title::before{
+  content:'';width:3px;height:14px;
+  background:var(--accent);border-radius:2px;
+}
+/* === 每日卡片 === */
+.day-card{
+  background:var(--card);border-radius:var(--radius);
+  border:1px solid var(--border);margin-bottom:12px;
+  overflow:hidden;transition:all .2s;
+}
+.day-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;cursor:pointer;
+}
+.day-header:active{background:var(--card-hover)}
+.day-date{display:flex;align-items:center;gap:12px}
+.day-date .date-badge{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--accent-dim);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.date-badge .d-num{font-size:18px;font-weight:700;color:var(--accent);line-height:1.1}
+.date-badge .d-month{font-size:10px;color:var(--accent);opacity:.8}
+.day-date .date-info h3{font-size:16px;font-weight:600}
+.day-date .date-info p{font-size:12px;color:var(--text-dim)}
+.day-arrow{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s;font-size:12px;color:var(--text-dim);
+}
+.day-card.open .day-arrow{transform:rotate(180deg)}
+.day-body{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+}
+.day-card.open .day-body{max-height:1200px}
+.day-body-inner{padding:0 18px 18px}
+/* === 行程条目 === */
+.event{
+  display:flex;gap:14px;padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.event:last-child{border-bottom:none}
+.event-time{
+  flex-shrink:0;width:56px;text-align:center;
+  font-size:13px;color:var(--accent);font-weight:600;
+  padding-top:2px;
+}
+.event-dot{
+  position:relative;flex-shrink:0;width:12px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.event-dot::before{
+  content:'';width:10px;height:10px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+  flex-shrink:0;margin-top:4px;
+}
+.event-dot::after{
+  content:'';width:2px;flex:1;
+  background:var(--border);margin-top:4px;
+}
+.event:last-child .event-dot::after{display:none}
+.event-content{flex:1;min-width:0}
+.event-content h4{font-size:15px;font-weight:600;margin-bottom:2px}
+.event-content p{font-size:13px;color:var(--text-dim);line-height:1.5}
+.event-tag{
+  display:inline-block;font-size:11px;
+  padding:2px 8px;border-radius:10px;margin-top:6px;font-weight:500;
+}
+.tag-flight{background:rgba(91,141,239,.15);color:var(--accent2)}
+.tag-hotel{background:rgba(201,169,110,.15);color:var(--accent)}
+.tag-event{background:rgba(91,196,160,.15);color:var(--success)}
+.tag-free{background:rgba(139,143,163,.15);color:var(--text-dim)}
+.tag-train{background:rgba(232,93,93,.15);color:var(--danger)}
+/* === 信息卡片 === */
+.info-card{
+  background:var(--card);border-radius:var(--radius);
+  border:1px solid var(--border);padding:16px 18px;
+  margin-bottom:12px;
+}
+.info-card h3{
+  font-size:15px;font-weight:600;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.info-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.info-row:last-child{border-bottom:none}
+.info-row .label{
+  font-size:13px;color:var(--text-dim);flex-shrink:0;
+  width:80px;
+}
+.info-row .value{font-size:14px;flex:1;word-break:break-all}
+a{color:var(--accent);text-decoration:none}
+a.phone-link{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(201,169,110,.12);
+  padding:6px 14px;border-radius:8px;
+  font-size:14px;color:var(--accent);font-weight:500;
+  margin-top:4px;
+}
+a.map-link{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(91,141,239,.12);
+  padding:6px 14px;border-radius:8px;
+  font-size:13px;color:var(--accent2);font-weight:500;
+  margin-top:6px;
+}
+/* === 底部导航 === */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(15,17,23,.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;padding:8px 0 env(safe-area-inset-bottom,8px);
+  z-index:100;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:6px 0;cursor:pointer;
+  color:var(--text-dim);font-size:10px;transition:color .2s;
+  text-decoration:none;
+}
+.nav-item.active{color:var(--accent)}
+.nav-item .nav-icon{font-size:20px;line-height:1}
+/* === 页面区块 === */
+.page-section{display:none}
+.page-section.active{display:block}
+/* === 提醒卡片 === */
+.reminder{
+  background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.05));
+  border:1px solid rgba(201,169,110,.2);
+  border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;
+}
+.reminder h4{font-size:14px;color:var(--accent);margin-bottom:6px}
+.reminder p{font-size:13px;color:var(--text-dim);line-height:1.6}
+.reminder ul{padding-left:18px;margin-top:4px}
+.reminder li{font-size:13px;color:var(--text-dim);line-height:1.8}
+/* === 响应式 === */
+@media(min-width:768px){
+  body{max-width:640px;margin:0 auto;padding-bottom:60px}
+  .hero{padding:64px 24px 44px}
+  .hero h1{font-size:32px}
+  .content{padding:0 24px}
+  .overview{padding:24px}
+  .bottom-nav{max-width:640px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}
+}
+/* 安全区域 */
+@supports(padding:env(safe-area-inset-bottom)){
+  body{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== 行程页 ====== -->
+<div id="page-trip" class="page-section active">
+  <div class="hero">
+    <div class="hero-tag">商务出差</div>
+    <h1>杭州行</h1>
+    <div class="subtitle">航海家AI大会 &middot; 润宇实战课</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="icon">&#128197;</div>
+        <span>3.27 – 4.1</span>
+      </div>
+      <div class="hero-meta-item">
+        <div class="icon">&#128101;</div>
+        <span>2人同行</span>
+      </div>
+      <div class="hero-meta-item">
+        <div class="icon">&#128205;</div>
+        <span>杭州</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 总览 -->
+  <div class="overview" id="overview">
+    <div class="overview-card" data-day="0" onclick="scrollToDay(0)">
+      <div class="day-num">27</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周五</div>
+    </div>
+    <div class="overview-card" data-day="1" onclick="scrollToDay(1)">
+      <div class="day-num">28</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周六</div>
+    </div>
+    <div class="overview-card" data-day="2" onclick="scrollToDay(2)">
+      <div class="day-num">29</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周日</div>
+    </div>
+    <div class="overview-card" data-day="3" onclick="scrollToDay(3)">
+      <div class="day-num">30</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周一</div>
+    </div>
+    <div class="overview-card" data-day="4" onclick="scrollToDay(4)">
+      <div class="day-num">31</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周二</div>
+    </div>
+    <div class="overview-card" data-day="5" onclick="scrollToDay(5)">
+      <div class="day-num">1</div>
+      <div class="day-label">4月</div>
+      <div class="day-week">周三</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Day 1: 3.27 出发 -->
+    <div class="day-card open" id="day-0">
+      <div class="day-header" onclick="toggleDay(0)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">27</span>
+            <span class="d-month">3月</span>
+          </div>
+          <div class="date-info">
+            <h3>出发日</h3>
+            <p>周五 &middot; 邯郸 → 杭州</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">20:50</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>长龙航空 GJ8980 起飞</h4>
+              <p>邯郸机场出发</p>
+              <span class="event-tag tag-flight">&#9992; 航班</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">22:45</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>抵达杭州萧山机场 T3</h4>
+              <p>取行李后打车前往酒店</p>
+              <span class="event-tag tag-flight">&#9992; 航班</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">约23:30</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>入住海外海大酒店</h4>
+              <p>杭州市拱墅区上塘路333号</p>
+              <span class="event-tag tag-hotel">&#127968; 住宿</span>
+              <a class="map-link" href="https://uri.amap.com/search?keyword=海外海大酒店杭州&city=杭州" target="_blank">&#128205; 打开地图导航</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2: 3.28 AI大会 Day1 -->
+    <div class="day-card" id="day-1">
+      <div class="day-header" onclick="toggleDay(1)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">28</span>
+            <span class="d-month">3月</span>
+          </div>
+          <div class="date-info">
+            <h3>航海家AI大会</h3>
+            <p>周六 &middot; Day 1</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">08:30</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>签到</h4>
+              <p>海外海大酒店签到处</p>
+              <span class="event-tag tag-event">&#127881; 大会</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">09:00</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>大会开始</h4>
+              <p>航海家年度AI大会（生财有术活动）</p>
+              <span class="event-tag tag-event">&#127881; 大会</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">全天</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>9:00 – 19:00 会议议程</h4>
+              <p>海外海大酒店会议厅</p>
+              <span class="event-tag tag-event">&#127881; 大会</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">20:00</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>夜话活动</h4>
+              <p>20:00 – 22:00</p>
+              <span class="event-tag tag-event">&#127881; 大会</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">晚间</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>住宿</h4>
+              <p>海外海大酒店（原酒店连住）</p>
+              <span class="event-tag tag-hotel">&#127968; 住宿</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3: 3.29 AI大会 Day2 + 转酒店 -->
+    <div class="day-card" id="day-2">
+      <div class="day-header" onclick="toggleDay(2)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">29</span>
+            <span class="d-month">3月</span>
+          </div>
+          <div class="date-info">
+            <h3>大会 Day2 / 转住</h3>
+            <p>周日 &middot; 换酒店</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">09:00</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>航海家AI大会 Day 2</h4>
+              <p>全天议程 9:00 – 19:00</p>
+              <span class="event-tag tag-event">&#127881; 大会</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">晚上</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>退房 &amp; 转住润宇附近酒店</h4>
+              <p>大会结束后退海外海，前往润宇实战课附近入住<br><em style="color:var(--danger)">酒店待定，需提前预订</em></p>
+              <span class="event-tag tag-hotel">&#127968; 住宿</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4: 3.30 自由活动 -->
+    <div class="day-card" id="day-3">
+      <div class="day-header" onclick="toggleDay(3)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">30</span>
+            <span class="d-month">3月</span>
+          </div>
+          <div class="date-info">
+            <h3>自由活动</h3>
+            <p>周一 &middot; 自由安排</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">全天</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>自由活动</h4>
+              <p>可在杭州逛逛，为31号实战课做准备<br>确认拍摄设备和道具是否齐全</p>
+              <span class="event-tag tag-free">&#9749; 自由</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 5: 3.31 润宇实战课 -->
+    <div class="day-card" id="day-4">
+      <div class="day-header" onclick="toggleDay(4)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">31</span>
+            <span class="d-month">3月</span>
+          </div>
+          <div class="date-info">
+            <h3>润宇实战课</h3>
+            <p>周二 &middot; IP短视频调优</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">09:00</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>IP短视频调优线下实战课</h4>
+              <p>润宇老师面对面校准方向</p>
+              <span class="event-tag tag-event">&#127909; 课程</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">全天</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>现场创作 &amp; 拍摄 &amp; 粗剪</h4>
+              <p>现场创作、拍摄、粗剪一条短视频</p>
+              <span class="event-tag tag-event">&#127909; 课程</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">18:00</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>课程结束</h4>
+              <span class="event-tag tag-event">&#127909; 课程</span>
+              <a class="map-link" href="https://uri.amap.com/search?keyword=西湖国际科技大厦C座&city=杭州" target="_blank">&#128205; 西湖国际科技大厦C座903</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 6: 4.1 返程 -->
+    <div class="day-card" id="day-5">
+      <div class="day-header" onclick="toggleDay(5)">
+        <div class="day-date">
+          <div class="date-badge">
+            <span class="d-num">1</span>
+            <span class="d-month">4月</span>
+          </div>
+          <div class="date-info">
+            <h3>返程</h3>
+            <p>周三 &middot; 杭州 → 邯郸</p>
+          </div>
+        </div>
+        <div class="day-arrow">&#9660;</div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="event">
+            <div class="event-time">待定</div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>高铁返回邯郸</h4>
+              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em></p>
+              <span class="event-tag tag-train">&#128646; 高铁</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 提醒 -->
+    <div class="reminder">
+      <h4>&#9888;&#65039; 待办提醒</h4>
+      <ul>
+        <li>29号晚润宇附近的酒店需要预订</li>
+        <li>4月1日高铁票需要提前购买</li>
+        <li>31号实战课带上拍摄设备（手机 / Pocket3）和道具</li>
+        <li>海外海酒店联系张经理确认入住</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 住宿页 ====== -->
+<div id="page-hotel" class="page-section">
+  <div class="content" style="padding-top:24px">
+    <div class="section-title">住宿信息</div>
+
+    <div class="info-card">
+      <h3>&#127968; 海外海大酒店</h3>
+      <div class="info-row">
+        <div class="label">地址</div>
+        <div class="value">杭州市拱墅区上塘路333号</div>
+      </div>
+      <div class="info-row">
+        <div class="label">价格</div>
+        <div class="value">450元/间（含双早）</div>
+      </div>
+      <div class="info-row">
+        <div class="label">入住</div>
+        <div class="value">3月27日晚 – 3月29日晚（共3晚）</div>
+      </div>
+      <div class="info-row">
+        <div class="label">联系人</div>
+        <div class="value">张经理</div>
+      </div>
+      <div class="info-row">
+        <div class="label">微信</div>
+        <div class="value">a38929538</div>
+      </div>
+      <div class="info-row">
+        <div class="label">电话</div>
+        <div class="value">
+          <a href="tel:13606628968" class="phone-link">&#128222; 136 0662 8968</a>
+        </div>
+      </div>
+      <a class="map-link" href="https://uri.amap.com/search?keyword=杭州海外海大酒店&city=杭州" target="_blank">&#128205; 高德地图导航</a>
+    </div>
+
+    <div class="info-card" style="border-color:rgba(232,93,93,.3)">
+      <h3>&#127968; 润宇附近酒店（待定）</h3>
+      <div class="info-row">
+        <div class="label">入住</div>
+        <div class="value">3月29日晚起（约2晚）</div>
+      </div>
+      <div class="info-row">
+        <div class="label">状态</div>
+        <div class="value" style="color:var(--danger)">&#9888;&#65039; 尚未预订，需尽快确认</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>&#128663; 交通参考</h3>
+      <div class="info-row">
+        <div class="label">萧山机场</div>
+        <div class="value">距海外海大酒店约50分钟</div>
+      </div>
+      <div class="info-row">
+        <div class="label">杭州东站</div>
+        <div class="value">距海外海大酒店约25分钟</div>
+      </div>
+      <div class="info-row">
+        <div class="label">杭州站</div>
+        <div class="value">距海外海大酒店约20分钟</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 联系人页 ====== -->
+<div id="page-contacts" class="page-section">
+  <div class="content" style="padding-top:24px">
+    <div class="section-title">重要联系</div>
+
+    <div class="info-card">
+      <h3>&#127968; 海外海大酒店</h3>
+      <div class="info-row">
+        <div class="label">张经理</div>
+        <div class="value">
+          <a href="tel:13606628968" class="phone-link">&#128222; 136 0662 8968</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="label">微信</div>
+        <div class="value">a38929538</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>&#127881; 航海家AI大会</h3>
+      <div class="info-row">
+        <div class="label">地点</div>
+        <div class="value">
+          海外海大酒店
+          <a class="map-link" href="https://uri.amap.com/search?keyword=杭州海外海大酒店&city=杭州" target="_blank">&#128205; 导航</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="label">签到</div>
+        <div class="value">3月28日 08:30</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>&#127909; 润宇实战课</h3>
+      <div class="info-row">
+        <div class="label">地点</div>
+        <div class="value">
+          西湖国际科技大厦C座903
+          <a class="map-link" href="https://uri.amap.com/search?keyword=西湖国际科技大厦C座&city=杭州" target="_blank">&#128205; 导航</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="label">时间</div>
+        <div class="value">3月31日 9:00 – 18:00</div>
+      </div>
+      <div class="info-row">
+        <div class="label">需带</div>
+        <div class="value">拍摄设备 + 道具</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 底部导航 ====== -->
+<div class="bottom-nav">
+  <div class="nav-item active" data-page="trip" onclick="switchPage('trip')">
+    <span class="nav-icon">&#128197;</span>
+    <span>行程</span>
+  </div>
+  <div class="nav-item" data-page="hotel" onclick="switchPage('hotel')">
+    <span class="nav-icon">&#127968;</span>
+    <span>住宿</span>
+  </div>
+  <div class="nav-item" data-page="contacts" onclick="switchPage('contacts')">
+    <span class="nav-icon">&#128222;</span>
+    <span>联系</span>
+  </div>
+</div>
+
+<script>
+// 展开/收起每日卡片
+function toggleDay(idx){
+  var cards=document.querySelectorAll('.day-card');
+  cards[idx].classList.toggle('open');
+  // 同步总览高亮
+  updateOverview(idx);
+}
+
+// 总览卡片点击跳转
+function scrollToDay(idx){
+  var el=document.getElementById('day-'+idx);
+  if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  // 自动展开
+  setTimeout(function(){el.classList.add('open')},300);
+  updateOverview(idx);
+}
+
+// 更新总览高亮
+function updateOverview(activeIdx){
+  var items=document.querySelectorAll('.overview-card');
+  items.forEach(function(item,i){
+    item.classList.toggle('active',i===activeIdx);
+  });
+}
+
+// 滚动时自动高亮总览
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var id=entry.target.id;
+      var idx=parseInt(id.split('-')[1]);
+      updateOverview(idx);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.day-card').forEach(function(card){observer.observe(card)});
+
+// 底部导航切换
+function switchPage(name){
+  document.querySelectorAll('.page-section').forEach(function(p){p.classList.remove('active')});
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){
+    n.classList.toggle('active',n.getAttribute('data-page')===name);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// 注册 Service Worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(function(){
+    console.log('Service Worker 已注册');
+  }).catch(function(err){
+    console.log('Service Worker 注册失败:', err);
+  });
+}
+</script>
+
+</body>
+</html>
