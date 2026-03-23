@@ -19,7 +19,7 @@
   --accent2:#5b8def;--danger:#e85d5d;--success:#5bc4a0;
   --radius:14px;--radius-sm:10px;
 }
-html{font-size:16px;scroll-behavior:smooth}
+html{font-size:17px;scroll-behavior:smooth}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   background:var(--bg);color:var(--text);line-height:1.6;
@@ -123,22 +123,27 @@ body{
 .day-body-inner{padding:0 18px 18px}
 /* === 行程条目 === */
 .event{
-  display:flex;gap:14px;padding:12px 0;
+  display:flex;gap:14px;padding:14px 0;
   border-bottom:1px solid rgba(255,255,255,.04);
 }
 .event:last-child{border-bottom:none}
 .event-time{
-  flex-shrink:0;width:56px;text-align:center;
-  font-size:13px;color:var(--accent);font-weight:600;
-  padding-top:2px;
+  flex-shrink:0;width:68px;text-align:center;
+  font-size:15px;color:var(--accent);font-weight:700;
+  padding-top:2px;line-height:1.4;
+}
+.time-suggest{
+  display:block;font-size:11px;color:var(--text-dim);
+  font-weight:400;margin-top:2px;
+  line-height:1.3;opacity:.85;
 }
 .event-dot{
-  position:relative;flex-shrink:0;width:12px;
+  position:relative;flex-shrink:0;width:14px;
   display:flex;flex-direction:column;align-items:center;
 }
 .event-dot::before{
-  content:'';width:10px;height:10px;border-radius:50%;
-  background:var(--accent);border:2px solid var(--bg);
+  content:'';width:12px;height:12px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--bg);
   flex-shrink:0;margin-top:4px;
 }
 .event-dot::after{
@@ -147,11 +152,11 @@ body{
 }
 .event:last-child .event-dot::after{display:none}
 .event-content{flex:1;min-width:0}
-.event-content h4{font-size:15px;font-weight:600;margin-bottom:2px}
-.event-content p{font-size:13px;color:var(--text-dim);line-height:1.5}
+.event-content h4{font-size:16px;font-weight:600;margin-bottom:3px}
+.event-content p{font-size:14px;color:var(--text-dim);line-height:1.6}
 .event-tag{
   display:inline-block;font-size:11px;
-  padding:2px 8px;border-radius:10px;margin-top:6px;font-weight:500;
+  padding:3px 10px;border-radius:11px;margin-top:8px;font-weight:500;
 }
 .tag-flight{background:rgba(91,141,239,.15);color:var(--accent2)}
 .tag-hotel{background:rgba(201,169,110,.15);color:var(--accent)}
@@ -216,14 +221,41 @@ a.map-link{
 .page-section.active{display:block}
 /* === 提醒卡片 === */
 .reminder{
-  background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.05));
-  border:1px solid rgba(201,169,110,.2);
-  border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;
+  background:linear-gradient(135deg,rgba(232,93,93,.12),rgba(232,93,93,.06));
+  border:1px solid rgba(232,93,93,.3);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;
+  position:relative;
 }
-.reminder h4{font-size:14px;color:var(--accent);margin-bottom:6px}
-.reminder p{font-size:13px;color:var(--text-dim);line-height:1.6}
-.reminder ul{padding-left:18px;margin-top:4px}
-.reminder li{font-size:13px;color:var(--text-dim);line-height:1.8}
+.reminder::before{
+  content:'';position:absolute;top:-8px;left:18px;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--danger);
+  box-shadow:0 0 10px var(--danger);
+}
+.reminder h4{
+  font-size:15px;color:var(--danger);margin-bottom:10px;
+  font-weight:700;display:flex;align-items:center;gap:8px;
+}
+.reminder h4::before{
+  content:'!';display:inline-flex;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--danger);color:#fff;
+  align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+}
+.reminder p{font-size:14px;color:var(--text-dim);line-height:1.6}
+.reminder ul{
+  padding-left:20px;margin-top:8px;
+  list-style:none;
+}
+.reminder li{
+  font-size:14px;color:var(--text);line-height:1.9;
+  position:relative;padding-left:18px;
+}
+.reminder li::before{
+  content:'•';position:absolute;left:0;
+  color:var(--danger);font-size:18px;font-weight:700;
+}
 /* === 响应式 === */
 @media(min-width:768px){
   body{max-width:640px;margin:0 auto;padding-bottom:60px}
@@ -317,25 +349,25 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">20:50</div>
+            <div class="event-time">20:50<br><span class="time-suggest">建议18:30到机场</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>长龙航空 GJ8980 起飞</h4>
-              <p>邯郸机场出发</p>
+              <p>邯郸机场出发，提前2小时到达</p>
               <span class="event-tag tag-flight">&#9992; 航班</span>
             </div>
           </div>
           <div class="event">
-            <div class="event-time">22:45</div>
+            <div class="event-time">22:45<br><span class="time-suggest">约23:30到酒店</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>抵达杭州萧山机场 T3</h4>
-              <p>取行李后打车前往酒店</p>
+              <p>取行李后打车前往酒店（约50分钟车程）</p>
               <span class="event-tag tag-flight">&#9992; 航班</span>
             </div>
           </div>
           <div class="event">
-            <div class="event-time">约23:30</div>
+            <div class="event-time">约23:30<br><span class="time-suggest">尽早休息</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>入住海外海大酒店</h4>
@@ -366,11 +398,11 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">08:30</div>
+            <div class="event-time">08:30<br><span class="time-suggest">提前10到</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>签到</h4>
-              <p>海外海大酒店签到处</p>
+              <p>海外海大酒店签到处，领取物料</p>
               <span class="event-tag tag-event">&#127881; 大会</span>
             </div>
           </div>
@@ -384,7 +416,7 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">全天</div>
+            <div class="event-time">全天<br><span class="time-suggest">中午安排休息</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>9:00 – 19:00 会议议程</h4>
@@ -393,11 +425,11 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">20:00</div>
+            <div class="event-time">20:00<br><span class="time-suggest">自由交流</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>夜话活动</h4>
-              <p>20:00 – 22:00</p>
+              <p>20:00 – 22:00，Networking 时间</p>
               <span class="event-tag tag-event">&#127881; 大会</span>
             </div>
           </div>
@@ -432,7 +464,7 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">09:00</div>
+            <div class="event-time">09:00<br><span class="time-suggest">准时入场</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>航海家AI大会 Day 2</h4>
@@ -441,7 +473,7 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">晚上</div>
+            <div class="event-time">19:00后<br><span class="time-suggest">先确认新酒店</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>退房 &amp; 转住润宇附近酒店</h4>
@@ -471,7 +503,7 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">全天</div>
+            <div class="event-time">全天<br><span class="time-suggest">灵活安排</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>自由活动</h4>
@@ -501,7 +533,7 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">09:00</div>
+            <div class="event-time">09:00<br><span class="time-suggest">提前10到</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>IP短视频调优线下实战课</h4>
@@ -510,7 +542,7 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">全天</div>
+            <div class="event-time">全天<br><span class="time-suggest">带好设备</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>现场创作 &amp; 拍摄 &amp; 粗剪</h4>
@@ -519,10 +551,11 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">18:00</div>
+            <div class="event-time">18:00<br><span class="time-suggest">可留连微信</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>课程结束</h4>
+              <p>合影留念，加联系方式</p>
               <span class="event-tag tag-event">&#127909; 课程</span>
               <a class="map-link" href="https://uri.amap.com/search?keyword=西湖国际科技大厦C座&city=杭州" target="_blank">&#128205; 西湖国际科技大厦C座903</a>
             </div>
@@ -549,11 +582,11 @@ a.map-link{
       <div class="day-body">
         <div class="day-body-inner">
           <div class="event">
-            <div class="event-time">待定</div>
+            <div class="event-time">待定<br><span class="time-suggest">提前买票</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>高铁返回邯郸</h4>
-              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em></p>
+              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家</p>
               <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
