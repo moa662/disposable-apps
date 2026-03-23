@@ -37,9 +37,12 @@ body{
   background:radial-gradient(circle,rgba(201,169,110,.12),transparent 70%);
 }
 .hero::after{
-  content:'';position:absolute;bottom:-40px;left:-30px;
-  width:160px;height:160px;border-radius:50%;
-  background:radial-gradient(circle,rgba(91,141,239,.08),transparent 70%);
+  content:'元';position:absolute;bottom:-30px;right:20px;
+  width:180px;height:180px;
+  font-size:140px;font-weight:900;color:rgba(201,169,110,.08);
+  line-height:1;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  pointer-events:none;
+  z-index:0;
 }
 .hero-tag{
   display:inline-block;font-size:12px;letter-spacing:2px;
@@ -184,6 +187,14 @@ body{
   width:80px;
 }
 .info-row .value{font-size:14px;flex:1;word-break:break-all}
+/* === 天气小部件 === */
+.day-weather{
+  position:absolute;bottom:6px;left:50%;
+  transform:translateX(-50%);display:flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--text-dim);opacity:.8;
+}
+.weather-icon{font-size:14px}
+.weather-temp{font-weight:600}
 a{color:var(--accent);text-decoration:none}
 a.phone-link{
   display:inline-flex;align-items:center;gap:4px;
@@ -301,24 +312,39 @@ a.map-link{
       <div class="day-num">27</div>
       <div class="day-label">3月</div>
       <div class="day-week">周五</div>
+      <div class="day-weather"><span class="weather-icon">&#9889;</span><span class="weather-temp">15°</span></div>
     </div>
     <div class="overview-card" data-day="1" onclick="scrollToDay(1)">
       <div class="day-num">28</div>
       <div class="day-label">3月</div>
       <div class="day-week">周六</div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">21°</span></div>
     </div>
     <div class="overview-card" data-day="2" onclick="scrollToDay(2)">
       <div class="day-num">29</div>
       <div class="day-label">3月</div>
       <div class="day-week">周日</div>
+      <div class="day-weather"><span class="weather-icon">&#127783;</span><span class="weather-temp">21°</span></div>
     </div>
     <div class="overview-card" data-day="3" onclick="scrollToDay(3)">
       <div class="day-num">30</div>
       <div class="day-label">3月</div>
       <div class="day-week">周一</div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
     </div>
     <div class="overview-card" data-day="4" onclick="scrollToDay(4)">
       <div class="day-num">31</div>
+      <div class="day-label">3月</div>
+      <div class="day-week">周二</div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
+    </div>
+    <div class="overview-card" data-day="5" onclick="scrollToDay(5)">
+      <div class="day-num">1</div>
+      <div class="day-label">4月</div>
+      <div class="day-week">周三</div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
+    </div>
+  </div>
       <div class="day-label">3月</div>
       <div class="day-week">周二</div>
     </div>
@@ -473,12 +499,14 @@ a.map-link{
             </div>
           </div>
           <div class="event">
-            <div class="event-time">19:00后<br><span class="time-suggest">先确认新酒店</span></div>
+            <div class="event-time">19:00后<br><span class="time-suggest">前往新酒店</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
-              <h4>退房 &amp; 转住润宇附近酒店</h4>
-              <p>大会结束后退海外海，前往润宇实战课附近入住<br><em style="color:var(--danger)">酒店待定，需提前预订</em></p>
+              <h4>退房 &amp; 转住全季酒店</h4>
+              <p>全季杭州文三路地铁站酒店（西湖区文三路553号）<br>
+              <em style="color:var(--text-dim)">距润宇实战课（西湖国际科技大厦C座）：步行约18分钟，约1公里</em></p>
               <span class="event-tag tag-hotel">&#127968; 住宿</span>
+              <a class="map-link" href="https://uri.amap.com/search?keyword=全季杭州文三路地铁站酒店&city=杭州" target="_blank">&#128205; 酒店导航</a>
             </div>
           </div>
         </div>
@@ -644,16 +672,21 @@ a.map-link{
       <a class="map-link" href="https://uri.amap.com/search?keyword=杭州海外海大酒店&city=杭州" target="_blank">&#128205; 高德地图导航</a>
     </div>
 
-    <div class="info-card" style="border-color:rgba(232,93,93,.3)">
-      <h3>&#127968; 润宇附近酒店（待定）</h3>
+    <div class="info-card">
+      <h3>&#127968; 全季酒店（润宇附近）</h3>
+      <div class="info-row">
+        <div class="label">地址</div>
+        <div class="value">杭州市西湖区文三路553号浙勤大厦</div>
+      </div>
       <div class="info-row">
         <div class="label">入住</div>
         <div class="value">3月29日晚起（约2晚）</div>
       </div>
       <div class="info-row">
-        <div class="label">状态</div>
-        <div class="value" style="color:var(--danger)">&#9888;&#65039; 尚未预订，需尽快确认</div>
+        <div class="label">到润宇</div>
+        <div class="value">步行约18分钟（约1公里），骑车约6分钟</div>
       </div>
+      <a class="map-link" href="https://uri.amap.com/search?keyword=全季杭州文三路地铁站酒店&city=杭州" target="_blank">&#128205; 高德地图导航</a>
     </div>
 
     <div class="info-card">
