@@ -1,5 +1,6 @@
 var CACHE_NAME = 'hangzhou-trip-v1';
 var ASSETS = [
+  './index.html',
   './trip.html',
   './manifest.json'
 ];
