@@ -78,9 +78,9 @@ body{
 .overview-card.active,.overview-card:active{
   border-color:var(--accent);background:var(--accent-dim);
 }
-.overview-card .day-num{font-size:20px;font-weight:700;color:var(--text)}
-.overview-card .day-label{font-size:11px;color:var(--text-dim);margin-top:2px}
-.overview-card .day-week{font-size:11px;color:var(--accent);margin-top:4px;font-weight:600}
+.overview-card .day-num{font-size:26px;font-weight:700;color:var(--text);line-height:1.1}
+.overview-card .day-label{font-size:13px;color:var(--text-dim);margin-top:3px;font-weight:600}
+.overview-card .day-week{font-size:12px;color:var(--accent);margin-top:5px;font-weight:600}
 .overview-card{position:relative}
 /* === 内容区 === */
 .content{padding:0 16px}
@@ -111,8 +111,8 @@ body{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   flex-shrink:0;
 }
-.date-badge .d-num{font-size:18px;font-weight:700;color:var(--accent);line-height:1.1}
-.date-badge .d-month{font-size:10px;color:var(--accent);opacity:.8}
+.date-badge .d-num{font-size:24px;font-weight:700;color:var(--accent);line-height:1.1}
+.date-badge .d-month{font-size:13px;color:var(--accent);opacity:.9;font-weight:600}
 .day-date .date-info h3{font-size:16px;font-weight:600}
 .day-date .date-info p{font-size:12px;color:var(--text-dim)}
 .day-arrow{
@@ -333,28 +333,19 @@ a.map-link{
       <div class="day-num">30</div>
       <div class="day-label">3月</div>
       <div class="day-week">周一</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
     </div>
     <div class="overview-card" data-day="4" onclick="scrollToDay(4)">
       <div class="day-num">31</div>
       <div class="day-label">3月</div>
       <div class="day-week">周二</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
     </div>
     <div class="overview-card" data-day="5" onclick="scrollToDay(5)">
       <div class="day-num">1</div>
       <div class="day-label">4月</div>
       <div class="day-week">周三</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">--°</span></div>
-    </div>
-  </div>
-      <div class="day-label">3月</div>
-      <div class="day-week">周二</div>
-    </div>
-    <div class="overview-card" data-day="5" onclick="scrollToDay(5)">
-      <div class="day-num">1</div>
-      <div class="day-label">4月</div>
-      <div class="day-week">周三</div>
+      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
     </div>
   </div>
 
@@ -617,7 +608,7 @@ a.map-link{
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>高铁返回邯郸</h4>
-              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家</p>
+              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家<br><em style="color:var(--accent);font-size:13px">天气：晴，温度22°，出行顺利</em></p>
               <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
