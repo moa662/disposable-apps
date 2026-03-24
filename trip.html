@@ -341,6 +341,54 @@ a.map-link{
 </head>
 <body>
 
+<!-- 密码锁 -->
+<div id="lock-screen" style="
+  position:fixed;inset:0;z-index:9999;
+  background:#0f1117;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+">
+  <div style="font-size:40px;margin-bottom:16px;">🔒</div>
+  <div style="color:#c9a96e;font-size:18px;font-weight:600;margin-bottom:6px;">杭州出差行程</div>
+  <div style="color:#8b8fa3;font-size:13px;margin-bottom:32px;">请输入访问密码</div>
+  <input id="pwd-input" type="password" inputmode="numeric" maxlength="10"
+    placeholder="请输入密码"
+    style="
+      width:200px;padding:12px 16px;border-radius:12px;
+      background:#1a1d27;border:1.5px solid #2a2e3f;
+      color:#e8e8ec;font-size:18px;text-align:center;letter-spacing:4px;
+      outline:none;caret-color:#c9a96e;
+    "
+    onkeydown="if(event.key==='Enter')checkPwd()"
+  />
+  <div id="pwd-err" style="color:#e85d5d;font-size:13px;margin-top:10px;min-height:18px;"></div>
+  <button onclick="checkPwd()" style="
+    margin-top:16px;padding:12px 40px;border-radius:12px;border:none;
+    background:#c9a96e;color:#0f1117;font-size:15px;font-weight:700;
+    cursor:pointer;
+  ">进入</button>
+</div>
+
+<script>
+(function(){
+  if(sessionStorage.getItem('trip_auth')==='1'){
+    document.getElementById('lock-screen').style.display='none';
+  }
+})();
+function checkPwd(){
+  var v=document.getElementById('pwd-input').value.trim();
+  if(v==='0330'){
+    sessionStorage.setItem('trip_auth','1');
+    document.getElementById('lock-screen').style.display='none';
+  } else {
+    document.getElementById('pwd-err').textContent='密码错误，请重试';
+    document.getElementById('pwd-input').value='';
+    document.getElementById('pwd-input').focus();
+  }
+}
+document.getElementById('pwd-input').focus();
+</script>
+
 <!-- ====== 行程页 ====== -->
 <div id="page-trip" class="page-section active">
   <div class="hero">
