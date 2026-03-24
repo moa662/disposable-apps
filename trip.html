@@ -78,10 +78,17 @@ body{
 .overview-card.active,.overview-card:active{
   border-color:var(--accent);background:var(--accent-dim);
 }
-.overview-card .day-num{font-size:26px;font-weight:700;color:var(--text);line-height:1.1}
-.overview-card .day-label{font-size:13px;color:var(--text-dim);margin-top:3px;font-weight:600}
-.overview-card .day-week{font-size:12px;color:var(--accent);margin-top:5px;font-weight:600}
+.overview-card .day-num{font-size:20px;font-weight:700;color:var(--text)}
+.overview-card .day-label{font-size:11px;color:var(--text-dim);margin-top:2px}
+.overview-card .day-week{font-size:11px;color:var(--accent);margin-top:4px;font-weight:600}
 .overview-card{position:relative}
+.day-weather{
+  display:flex;align-items:center;justify-content:center;gap:3px;
+  font-size:11px;color:var(--text-dim);
+  margin-top:6px;
+}
+.weather-icon{font-size:15px;line-height:1}
+.weather-temp{font-weight:700;font-size:12px;color:var(--text)}
 /* === 内容区 === */
 .content{padding:0 16px}
 .section-title{
@@ -104,39 +111,78 @@ body{
   padding:16px 18px;cursor:pointer;
 }
 .day-header:active{background:var(--card-hover)}
-.day-date{display:flex;align-items:center;gap:12px}
+.day-date{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
 .day-date .date-badge{
   width:48px;height:48px;border-radius:12px;
   background:var(--accent-dim);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   flex-shrink:0;
 }
-.date-badge .d-num{font-size:24px;font-weight:700;color:var(--accent);line-height:1.1}
-.date-badge .d-month{font-size:13px;color:var(--accent);opacity:.9;font-weight:600}
+.date-badge .d-num{font-size:18px;font-weight:700;color:var(--accent);line-height:1.1}
+.date-badge .d-month{font-size:10px;color:var(--accent);opacity:.8}
+.day-date .date-info{flex:1;min-width:0}
 .day-date .date-info h3{font-size:16px;font-weight:600}
 .day-date .date-info p{font-size:12px;color:var(--text-dim)}
+/* 天气 badge in header */
+.weather-badge{
+  display:flex;flex-direction:column;align-items:center;
+  gap:2px;margin-left:auto;margin-right:12px;flex-shrink:0;
+}
+.weather-badge .wb-icon{font-size:22px;line-height:1}
+.weather-badge .wb-temp{font-size:12px;font-weight:700;color:var(--text)}
+.weather-badge .wb-desc{font-size:10px;color:var(--text-dim);white-space:nowrap}
 .day-arrow{
   width:28px;height:28px;border-radius:50%;
   background:rgba(255,255,255,.05);
   display:flex;align-items:center;justify-content:center;
   transition:transform .3s;font-size:12px;color:var(--text-dim);
+  flex-shrink:0;
 }
 .day-card.open .day-arrow{transform:rotate(180deg)}
 .day-body{
-  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  max-height:0;overflow:hidden;transition:max-height .4s ease;
 }
-.day-card.open .day-body{max-height:1200px}
+.day-card.open .day-body{max-height:1600px}
 .day-body-inner{padding:0 18px 18px}
+/* === 天气详情卡 === */
+.weather-detail{
+  background:linear-gradient(135deg,rgba(91,141,239,.08),rgba(91,196,160,.06));
+  border:1px solid rgba(91,141,239,.18);
+  border-radius:10px;padding:12px 14px;margin-bottom:12px;
+}
+.weather-detail-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+}
+.weather-detail-row:last-child{margin-bottom:0}
+.wd-main{display:flex;align-items:center;gap:12px;flex:1}
+.wd-icon{font-size:28px;line-height:1}
+.wd-info{}
+.wd-temp{font-size:18px;font-weight:700;color:var(--text);line-height:1.2}
+.wd-sky{font-size:13px;color:var(--text-dim)}
+.wd-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.wd-stat{
+  font-size:12px;color:var(--text-dim);
+  display:flex;align-items:center;gap:4px;
+}
+.wd-stat strong{color:var(--text);font-size:12px}
+/* 出行建议条 */
+.weather-tips{
+  border-top:1px solid rgba(91,141,239,.15);
+  padding-top:10px;margin-top:4px;
+}
+.weather-tips-title{
+  font-size:11px;color:var(--accent);font-weight:700;
+  letter-spacing:1px;margin-bottom:6px;
+}
+.tip-row{
+  display:flex;align-items:flex-start;gap:6px;
+  font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:3px;
+}
+.tip-row .tip-icon{flex-shrink:0;font-size:13px;margin-top:1px}
 /* === 行程条目 === */
 .event{
   display:flex;gap:14px;padding:14px 0;
   border-bottom:1px solid rgba(255,255,255,.04);
-  position:relative;
-}
-.event-weather{
-  display:inline-block;font-size:13px;color:var(--accent);font-weight:600;
-  background:var(--accent-dim);padding:4px 10px;border-radius:10px;
-  margin-top:8px;
 }
 .event:last-child{border-bottom:none}
 .event-time{
@@ -196,14 +242,6 @@ body{
   width:80px;
 }
 .info-row .value{font-size:14px;flex:1;word-break:break-all}
-/* === 天气小部件 === */
-.day-weather{
-  display:flex;align-items:center;justify-content:center;gap:4px;
-  font-size:11px;color:var(--text-dim);opacity:.8;
-  margin-top:6px;
-}
-.weather-icon{font-size:14px}
-.weather-temp{font-weight:600}
 a{color:var(--accent);text-decoration:none}
 a.phone-link{
   display:inline-flex;align-items:center;gap:4px;
@@ -239,43 +277,53 @@ a.map-link{
 /* === 页面区块 === */
 .page-section{display:none}
 .page-section.active{display:block}
-/* === 提醒卡片 === */
-.reminder{
-  background:linear-gradient(135deg,rgba(232,93,93,.12),rgba(232,93,93,.06));
-  border:1px solid rgba(232,93,93,.3);
+/* === 待办卡片（重新设计，去掉红色危险风格）=== */
+.todo-card{
+  background:var(--card);
+  border:1px solid var(--border);
   border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;
-  position:relative;
 }
-.reminder::before{
-  content:'';position:absolute;top:-8px;left:18px;
-  width:4px;height:4px;border-radius:50%;
-  background:var(--danger);
-  box-shadow:0 0 10px var(--danger);
-}
-.reminder h4{
-  font-size:15px;color:var(--danger);margin-bottom:10px;
+.todo-card h4{
+  font-size:15px;color:var(--accent);margin-bottom:12px;
   font-weight:700;display:flex;align-items:center;gap:8px;
 }
-.reminder h4::before{
-  content:'!';display:inline-flex;
-  width:22px;height:22px;border-radius:50%;
-  background:var(--danger);color:#fff;
-  align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;
+.todo-section{margin-bottom:12px}
+.todo-section-label{
+  font-size:11px;color:var(--text-dim);letter-spacing:1px;
+  text-transform:uppercase;font-weight:600;
+  margin-bottom:6px;padding-bottom:4px;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
-.reminder p{font-size:14px;color:var(--text-dim);line-height:1.6}
-.reminder ul{
-  padding-left:20px;margin-top:8px;
-  list-style:none;
+.todo-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;font-size:14px;color:var(--text);
+  border-bottom:1px solid rgba(255,255,255,.03);
+  line-height:1.5;
 }
-.reminder li{
-  font-size:14px;color:var(--text);line-height:1.9;
-  position:relative;padding-left:18px;
+.todo-item:last-child{border-bottom:none}
+.todo-item .ti-icon{flex-shrink:0;font-size:15px;margin-top:1px}
+.todo-item.done{color:var(--text-dim)}
+.todo-item.done .ti-text{text-decoration:line-through;opacity:.6}
+/* === 建议卡片 === */
+.tips-card{
+  background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(201,169,110,.03));
+  border:1px solid rgba(201,169,110,.2);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;
 }
-.reminder li::before{
-  content:'•';position:absolute;left:0;
-  color:var(--danger);font-size:18px;font-weight:700;
+.tips-card h4{
+  font-size:15px;color:var(--accent);margin-bottom:12px;
+  font-weight:700;display:flex;align-items:center;gap:8px;
 }
+.tips-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;font-size:14px;
+  border-bottom:1px solid rgba(201,169,110,.08);
+  line-height:1.5;
+}
+.tips-item:last-child{border-bottom:none}
+.tips-item .ti-icon{flex-shrink:0;font-size:15px;margin-top:1px}
+.tips-item .ti-text{color:var(--text-dim)}
+.tips-item .ti-text strong{color:var(--text);font-weight:600}
 /* === 响应式 === */
 @media(min-width:768px){
   body{max-width:640px;margin:0 auto;padding-bottom:60px}
@@ -321,37 +369,37 @@ a.map-link{
       <div class="day-num">27</div>
       <div class="day-label">3月</div>
       <div class="day-week">周五</div>
-      <div class="day-weather"><span class="weather-icon">&#9889;</span><span class="weather-temp">15°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9928;</span><span class="weather-temp">10~17°</span></div>
     </div>
     <div class="overview-card" data-day="1" onclick="scrollToDay(1)">
       <div class="day-num">28</div>
       <div class="day-label">3月</div>
       <div class="day-week">周六</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">21°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9925;</span><span class="weather-temp">14~21°</span></div>
     </div>
     <div class="overview-card" data-day="2" onclick="scrollToDay(2)">
       <div class="day-num">29</div>
       <div class="day-label">3月</div>
       <div class="day-week">周日</div>
-      <div class="day-weather"><span class="weather-icon">&#127783;</span><span class="weather-temp">21°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#127783;</span><span class="weather-temp">14~20°</span></div>
     </div>
     <div class="overview-card" data-day="3" onclick="scrollToDay(3)">
       <div class="day-num">30</div>
       <div class="day-label">3月</div>
       <div class="day-week">周一</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#127783;</span><span class="weather-temp">12~19°</span></div>
     </div>
     <div class="overview-card" data-day="4" onclick="scrollToDay(4)">
       <div class="day-num">31</div>
       <div class="day-label">3月</div>
       <div class="day-week">周二</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9928;</span><span class="weather-temp">13~20°</span></div>
     </div>
     <div class="overview-card" data-day="5" onclick="scrollToDay(5)">
       <div class="day-num">1</div>
       <div class="day-label">4月</div>
       <div class="day-week">周三</div>
-      <div class="day-weather"><span class="weather-icon">&#9728;</span><span class="weather-temp">22°</span></div>
+      <div class="day-weather"><span class="weather-icon">&#9925;</span><span class="weather-temp">15~22°</span></div>
     </div>
   </div>
 
@@ -370,30 +418,60 @@ a.map-link{
             <p>周五 &middot; 邯郸 → 杭州</p>
           </div>
         </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#9928;</span>
+          <span class="wb-temp">10~17°</span>
+          <span class="wb-desc">多云转晴</span>
+        </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <!-- 天气详情 -->
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#9928;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">10° ~ 17°</div>
+                  <div class="wd-sky">多云转晴 · 东南风 2级</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>65%</strong></span>
+              <span class="wd-stat">&#128064; 能见度 <strong>良好</strong></span>
+              <span class="wd-stat">&#127774; 日落 <strong>18:30</strong></span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 出行建议</div>
+              <div class="tip-row"><span class="tip-icon">&#128085;</span>邯郸出发早晨偏凉，建议叠穿轻薄外套，杭州下午16°C穿搭舒适</div>
+              <div class="tip-row"><span class="tip-icon">&#9193;</span>乘高铁出发，无需担心航班延误风险，准时率高</div>
+              <div class="tip-row"><span class="tip-icon">&#128663;</span>到杭州东站后打滴滴/高德叫车，高峰期约25分钟，建议直接叫专车</div>
+              <div class="tip-row"><span class="tip-icon">&#127966;</span>傍晚入住后可在酒店附近吃顿晚饭，大会期间饮食可能以自助为主</div>
+            </div>
+          </div>
+          <!-- 行程 -->
           <div class="event">
-            <div class="event-time">20:50<br><span class="time-suggest">建议18:30到机场</span></div>
+            <div class="event-time">08:15<br><span class="time-suggest">07:30到车站</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
-              <h4>长龙航空 GJ8980 起飞</h4>
-              <p>邯郸机场出发，提前2小时到达</p>
-              <span class="event-tag tag-flight">&#9992; 航班</span>
+              <h4>高铁 G2807 出发</h4>
+              <p>邯郸东站，08车06A号靠窗</p>
+              <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
           <div class="event">
-            <div class="event-time">22:45<br><span class="time-suggest">约23:30到酒店</span></div>
+            <div class="event-time">15:15<br><span class="time-suggest">约16:00到酒店</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
-              <h4>抵达杭州萧山机场 T3</h4>
-              <p>取行李后打车前往酒店（约50分钟车程）</p>
-              <span class="event-tag tag-flight">&#9992; 航班</span>
+              <h4>抵达杭州东站</h4>
+              <p>打车前往酒店（约25分钟车程）</p>
+              <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
           <div class="event">
-            <div class="event-time">约23:30<br><span class="time-suggest">尽早休息</span></div>
+            <div class="event-time">约16:00<br><span class="time-suggest">休息迎接明天</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>入住海外海大酒店</h4>
@@ -419,10 +497,39 @@ a.map-link{
             <p>周六 &middot; Day 1</p>
           </div>
         </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#9925;</span>
+          <span class="wb-temp">14~21°</span>
+          <span class="wb-desc">晴间多云</span>
+        </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#9925;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">14° ~ 21°</div>
+                  <div class="wd-sky">晴间多云 · 微风</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>55%</strong></span>
+              <span class="wd-stat">&#9728; 晴天为主</span>
+              <span class="wd-stat">&#127774; 日落 <strong>18:31</strong></span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 大会建议</div>
+              <div class="tip-row"><span class="tip-icon">&#128085;</span>室内大会建议穿商务休闲，带一件薄外套，早晚出门偏凉</div>
+              <div class="tip-row"><span class="tip-icon">&#128222;</span>大会人多，手机保持充电满格，带充电宝；名片/企微二维码准备好</div>
+              <div class="tip-row"><span class="tip-icon">&#128221;</span>带笔记本或手机随时记录金句，夜话交流是最佳 Networking 时机</div>
+              <div class="tip-row"><span class="tip-icon">&#127860;</span>中午会场提供餐食，避免出去浪费时间；晚饭夜话后再自行解决</div>
+              <div class="tip-row"><span class="tip-icon">&#128247;</span>合影/打卡大会横幅，晚上整理当天所有联系方式</div>
+            </div>
+          </div>
           <div class="event">
             <div class="event-time">08:30<br><span class="time-suggest">提前10到</span></div>
             <div class="event-dot"></div>
@@ -447,7 +554,6 @@ a.map-link{
             <div class="event-content">
               <h4>9:00 – 19:00 会议议程</h4>
               <p>海外海大酒店会议厅</p>
-              <span class="event-weather">&#9728; 晴 21° 舒适</span>
               <span class="event-tag tag-event">&#127881; 大会</span>
             </div>
           </div>
@@ -473,7 +579,7 @@ a.map-link{
       </div>
     </div>
 
-    <!-- Day 3: 3.29 AI大会 Day2 + 转酒店 -->
+    <!-- Day 3: 3.29 AI大会 Day2 -->
     <div class="day-card" id="day-2">
       <div class="day-header" onclick="toggleDay(2)">
         <div class="day-date">
@@ -482,14 +588,41 @@ a.map-link{
             <span class="d-month">3月</span>
           </div>
           <div class="date-info">
-            <h3>大会 Day2 / 转住</h3>
-            <p>周日 &middot; 换酒店</p>
+            <h3>大会 Day2</h3>
+            <p>周日 &middot; 大会收官日</p>
           </div>
+        </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#127783;</span>
+          <span class="wb-temp">14~20°</span>
+          <span class="wb-desc">阴转多云</span>
         </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#127783;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">14° ~ 20°</div>
+                  <div class="wd-sky">阴转多云 · 东风 2级</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>72%</strong></span>
+              <span class="wd-stat">&#9928; 云层较厚</span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 大会收官建议</div>
+              <div class="tip-row"><span class="tip-icon">&#128085;</span>阴天气温偏凉，外出别忘了带外套</div>
+              <div class="tip-row"><span class="tip-icon">&#129524;</span>大会最后一天，重点场次做好记录，带够名片</div>
+              <div class="tip-row"><span class="tip-icon">&#128222;</span>整理2天大会的联系人，重要的立即发一条打招呼消息，趁热打铁</div>
+              <div class="tip-row"><span class="tip-icon">&#128205;</span>确认明天30号换酒店的时间和行李安排</div>
+            </div>
+          </div>
           <div class="event">
             <div class="event-time">09:00<br><span class="time-suggest">准时入场</span></div>
             <div class="event-dot"></div>
@@ -499,22 +632,11 @@ a.map-link{
               <span class="event-tag tag-event">&#127881; 大会</span>
             </div>
           </div>
-          <div class="event">
-            <div class="event-time">19:00后<br><span class="time-suggest">前往新酒店</span></div>
-            <div class="event-dot"></div>
-            <div class="event-content">
-              <h4>退房 &amp; 转住全季酒店</h4>
-              <p>全季杭州文三路地铁站酒店（西湖区文三路553号）<br>
-              <em style="color:var(--text-dim)">距润宇实战课（西湖国际科技大厦C座）：步行约18分钟，约1公里</em></p>
-              <span class="event-tag tag-hotel">&#127968; 住宿</span>
-              <a class="map-link" href="https://uri.amap.com/search?keyword=全季杭州文三路地铁站酒店&city=杭州" target="_blank">&#128205; 酒店导航</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Day 4: 3.30 转酒店 -->
+    <!-- Day 4: 3.30 自由活动 -->
     <div class="day-card" id="day-3">
       <div class="day-header" onclick="toggleDay(3)">
         <div class="day-date">
@@ -523,33 +645,67 @@ a.map-link{
             <span class="d-month">3月</span>
           </div>
           <div class="date-info">
-            <h3>转住全季</h3>
-            <p>周一 &middot; 换酒店</p>
+            <h3>自由活动</h3>
+            <p>周一 &middot; 自由安排</p>
           </div>
+        </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#127783;</span>
+          <span class="wb-temp">12~19°</span>
+          <span class="wb-desc">多云有雨</span>
         </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#127783;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">12° ~ 19°</div>
+                  <div class="wd-sky">阴多云 · 可能有小雨</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>80%</strong></span>
+              <span class="wd-stat">&#9928; 降雨概率 <strong>40%</strong></span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 自由日建议</div>
+              <div class="tip-row"><span class="tip-icon">&#9730;</span>带折叠雨伞，降雨概率较高，适合室内逛逛（丝绸/茶叶/龙井）</div>
+              <div class="tip-row"><span class="tip-icon">&#127381;</span>推荐打卡：西湖旁边吃个知味观小吃、湖滨银泰逛逛</div>
+              <div class="tip-row"><span class="tip-icon">&#127909;</span>整理大会笔记，确认31号实战课要展示的账号内容方向</div>
+              <div class="tip-row"><span class="tip-icon">&#128247;</span>检查拍摄设备：Pocket3 电量、手机存储空间、稳定器是否带齐</div>
+              <div class="tip-row"><span class="tip-icon">&#127759;</span>入住后提前踩点全季酒店到西湖国际科技大厦C座903的步行路线，明早少折腾</div>
+            </div>
+          </div>
           <div class="event">
-            <div class="event-time">上午<br><span class="time-suggest">自由活动</span></div>
+            <div class="event-time">上午<br><span class="time-suggest">退房前完成</span></div>
+            <div class="event-dot"></div>
+            <div class="event-content">
+              <h4>海外海大酒店退房</h4>
+              <p>收拾行李，结清费用，保留重要物品随身携带</p>
+              <span class="event-tag tag-hotel">&#127968; 住宿</span>
+            </div>
+          </div>
+          <div class="event">
+            <div class="event-time">自由<br><span class="time-suggest">轻松安排</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
               <h4>自由活动</h4>
-              <p>可在杭州逛逛，为31号实战课做准备<br>确认拍摄设备和道具是否齐全</p>
-              <span class="event-weather">&#9728; 晴 22° 适合户外</span>
+              <p>在杭州自由逛逛，为31号实战课做准备<br>确认拍摄设备和道具是否齐全</p>
               <span class="event-tag tag-free">&#9749; 自由</span>
             </div>
           </div>
           <div class="event">
-            <div class="event-time">下午<br><span class="time-suggest">前往新酒店</span></div>
+            <div class="event-time">傍晚<br><span class="time-suggest">提前入住安顿</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
-              <h4>退房 &amp; 转住全季酒店</h4>
-              <p>全季杭州文三路地铁站酒店（西湖区文三路553号）<br>
-              <em style="color:var(--text-dim)">距润宇实战课（西湖国际科技大厦C座）：步行约18分钟，约1公里</em></p>
+              <h4>换住全季酒店（润宇附近）</h4>
+              <p><em style="color:var(--accent)">⚠️ 具体门店待确认</em>，选西湖国际科技大厦附近全季，步行可达明天课堂</p>
               <span class="event-tag tag-hotel">&#127968; 住宿</span>
-              <a class="map-link" href="https://uri.amap.com/search?keyword=全季杭州文三路地铁站酒店&city=杭州" target="_blank">&#128205; 酒店导航</a>
             </div>
           </div>
         </div>
@@ -569,10 +725,38 @@ a.map-link{
             <p>周二 &middot; IP短视频调优</p>
           </div>
         </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#9928;</span>
+          <span class="wb-temp">13~20°</span>
+          <span class="wb-desc">多云转晴</span>
+        </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#9928;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">13° ~ 20°</div>
+                  <div class="wd-sky">多云转晴 · 适合室外拍摄</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>60%</strong></span>
+              <span class="wd-stat">&#9728; 下午光线好</span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 实战课建议</div>
+              <div class="tip-row"><span class="tip-icon">&#127909;</span>下午光线条件好，适合户外取景拍摄，课间休息时可出去拍素材</div>
+              <div class="tip-row"><span class="tip-icon">&#128222;</span>手机电量备足，存储至少预留 20GB，带 Type-C 数据线方便传素材</div>
+              <div class="tip-row"><span class="tip-icon">&#128221;</span>带纸和笔，润宇老师的点评建议，手写比截图更容易内化</div>
+              <div class="tip-row"><span class="tip-icon">&#128085;</span>全天室内课，穿舒适休闲即可，带一件外套早晚出行用</div>
+              <div class="tip-row"><span class="tip-icon">&#127811;</span>课程结束后与同学多交流，互相加企微，这批人大概率都是高质量同频资源</div>
+            </div>
+          </div>
           <div class="event">
             <div class="event-time">09:00<br><span class="time-suggest">提前10到</span></div>
             <div class="event-dot"></div>
@@ -588,7 +772,6 @@ a.map-link{
             <div class="event-content">
               <h4>现场创作 &amp; 拍摄 &amp; 粗剪</h4>
               <p>现场创作、拍摄、粗剪一条短视频</p>
-              <span class="event-weather">&#9728; 晴 22° 光线好适合拍摄</span>
               <span class="event-tag tag-event">&#127909; 课程</span>
             </div>
           </div>
@@ -619,17 +802,43 @@ a.map-link{
             <p>周三 &middot; 杭州 → 邯郸</p>
           </div>
         </div>
+        <div class="weather-badge">
+          <span class="wb-icon">&#9925;</span>
+          <span class="wb-temp">15~22°</span>
+          <span class="wb-desc">晴好天气</span>
+        </div>
         <div class="day-arrow">&#9660;</div>
       </div>
       <div class="day-body">
         <div class="day-body-inner">
+          <div class="weather-detail">
+            <div class="weather-detail-row">
+              <div class="wd-main">
+                <div class="wd-icon">&#9925;</div>
+                <div class="wd-info">
+                  <div class="wd-temp">15° ~ 22°</div>
+                  <div class="wd-sky">晴好天气 · 适合出行</div>
+                </div>
+              </div>
+            </div>
+            <div class="wd-stats">
+              <span class="wd-stat">&#128167; 湿度 <strong>50%</strong></span>
+              <span class="wd-stat">&#9728; 全天晴</span>
+            </div>
+            <div class="weather-tips">
+              <div class="weather-tips-title">&#127381; 返程建议</div>
+              <div class="tip-row"><span class="tip-icon">&#128646;</span>13:30 到杭州东站，预留 30 分钟余量，高铁站安检较长</div>
+              <div class="tip-row"><span class="tip-icon">&#127860;</span>上车前在东站买点吃的，G2808 运行约 6.5 小时，途中自由用餐</div>
+              <div class="tip-row"><span class="tip-icon">&#128221;</span>返途整理此行的核心收获、待执行计划，趁思路最鲜写下来</div>
+              <div class="tip-row"><span class="tip-icon">&#128187;</span>回程可整理润宇课内容，把粗剪视频整理好，到家就能继续推进</div>
+            </div>
+          </div>
           <div class="event">
-            <div class="event-time">待定<br><span class="time-suggest">提前买票</span></div>
+            <div class="event-time">14:04<br><span class="time-suggest">13:30到车站</span></div>
             <div class="event-dot"></div>
             <div class="event-content">
-              <h4>高铁返回邯郸</h4>
-              <p><em style="color:var(--danger)">具体时间未定，建议提前买票</em><br>建议选择上午班次，当天下午到家</p>
-              <span class="event-weather">&#9728; 晴 22° 出行顺利</span>
+              <h4>高铁 G2808 返回邯郸</h4>
+              <p>杭州东站出发，20:45抵达邯郸东</p>
               <span class="event-tag tag-train">&#128646; 高铁</span>
             </div>
           </div>
@@ -637,14 +846,83 @@ a.map-link{
       </div>
     </div>
 
-    <!-- 提醒 -->
-    <div class="reminder">
-      <h4>待办提醒</h4>
-      <ul>
-        <li>4月1日高铁票需要提前购买</li>
-        <li>31号实战课带上拍摄设备（手机 / Pocket3）和道具</li>
-        <li>海外海酒店联系张经理确认入住</li>
-      </ul>
+    <!-- 待办事项（重新设计） -->
+    <div class="todo-card">
+      <h4>&#9989; 待办清单</h4>
+      <div class="todo-section">
+        <div class="todo-section-label">&#128204; 出发前</div>
+        <div class="todo-item done">
+          <span class="ti-icon">&#9989;</span>
+          <span class="ti-text">高铁票已购（G2807去 / G2808回）</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">联系张经理确认 3/27 入住时间（微信 a38929538）</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">Pocket3 充电 + 检查存储卡容量</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">准备好企微二维码 / 名片，方便大会 Networking</span>
+        </div>
+      </div>
+      <div class="todo-section">
+        <div class="todo-section-label">&#127381; 实战课准备</div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">带上拍摄设备：手机 + Pocket3 + 稳定器</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">带道具（品牌 / 产品相关）</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">充电宝 + Type-C 数据线</span>
+        </div>
+      </div>
+      <div class="todo-section">
+        <div class="todo-section-label">&#9992; 回程前</div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">4/1 全季酒店退房（确认退房时间）</span>
+        </div>
+        <div class="todo-item">
+          <span class="ti-icon">&#128073;</span>
+          <span class="ti-text">整理行李，检查充电器 / 数据线别落下</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通用出行建议 -->
+    <div class="tips-card">
+      <h4>&#128161; 出行小贴士</h4>
+      <div class="tips-item">
+        <span class="ti-icon">&#9748;</span>
+        <span class="ti-text"><strong>天气整体：</strong>杭州 3 月末气候宜人，白天 15-21°，早晚偏凉，带一件薄外套足够全程</span>
+      </div>
+      <div class="tips-item">
+        <span class="ti-icon">&#128661;</span>
+        <span class="ti-text"><strong>打车：</strong>高峰期杭州东站→拱墅区约 25-35 分钟，建议用滴滴优先预约，早高峰提前叫车</span>
+      </div>
+      <div class="tips-item">
+        <span class="ti-icon">&#128176;</span>
+        <span class="ti-text"><strong>消费：</strong>杭州餐饮均价 50-80 元/人，大会附近餐厅晚餐建议提前踩点，高档区有知味观等</span>
+      </div>
+      <div class="tips-item">
+        <span class="ti-icon">&#127860;</span>
+        <span class="ti-text"><strong>早餐：</strong>海外海大酒店含双早，记得每天用掉；全季也有早餐服务</span>
+      </div>
+      <div class="tips-item">
+        <span class="ti-icon">&#128222;</span>
+        <span class="ti-text"><strong>网络：</strong>高铁上 5G 信号偶有中断，重要文件提前下载离线；酒店 WiFi 开会期间较慢</span>
+      </div>
+      <div class="tips-item">
+        <span class="ti-icon">&#128276;</span>
+        <span class="ti-text"><strong>紧急联系：</strong>张经理 136 0662 8968 · 滴滴客服 400-000-0999 · 铁路客服 12306</span>
+      </div>
     </div>
 
   </div>
@@ -694,7 +972,7 @@ a.map-link{
       </div>
       <div class="info-row">
         <div class="label">入住</div>
-        <div class="value">3月30日下午起（约2晚）</div>
+        <div class="value">3月29日晚起（约2晚）</div>
       </div>
       <div class="info-row">
         <div class="label">到润宇</div>
@@ -705,10 +983,6 @@ a.map-link{
 
     <div class="info-card">
       <h3>&#128663; 交通参考</h3>
-      <div class="info-row">
-        <div class="label">萧山机场</div>
-        <div class="value">距海外海大酒店约50分钟</div>
-      </div>
       <div class="info-row">
         <div class="label">杭州东站</div>
         <div class="value">距海外海大酒店约25分钟</div>
@@ -773,6 +1047,22 @@ a.map-link{
         <div class="value">拍摄设备 + 道具</div>
       </div>
     </div>
+
+    <div class="info-card">
+      <h3>&#128222; 紧急联系</h3>
+      <div class="info-row">
+        <div class="label">铁路客服</div>
+        <div class="value"><a href="tel:12306" class="phone-link">&#128222; 12306</a></div>
+      </div>
+      <div class="info-row">
+        <div class="label">滴滴客服</div>
+        <div class="value"><a href="tel:4000000999" class="phone-link">&#128222; 400-000-0999</a></div>
+      </div>
+      <div class="info-row">
+        <div class="label">急救</div>
+        <div class="value"><a href="tel:120" class="phone-link">&#128222; 120</a></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -797,7 +1087,6 @@ a.map-link{
 function toggleDay(idx){
   var cards=document.querySelectorAll('.day-card');
   cards[idx].classList.toggle('open');
-  // 同步总览高亮
   updateOverview(idx);
 }
 
@@ -806,7 +1095,6 @@ function scrollToDay(idx){
   var el=document.getElementById('day-'+idx);
   if(!el)return;
   el.scrollIntoView({behavior:'smooth',block:'start'});
-  // 自动展开
   setTimeout(function(){el.classList.add('open')},300);
   updateOverview(idx);
 }
